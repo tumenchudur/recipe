@@ -1,7 +1,9 @@
 require("@babel/polyfill");
 import Search from "./model/search";
 import * as searchView from "./view/searchView";
+import Recipe from "./model/recipe";
 import { elements, renderLoader, clearLoader } from "./view/base";
+
 /**
  * Web App төлөв
  * -Хайлтын query, үр дүн
@@ -47,3 +49,6 @@ elements.pageButtons.addEventListener("click", (e) => {
         searchView.renderRecipes(state.search.result, goToPage);
     }
 });
+
+const r = new Recipe(47746);
+r.getRecipe();
