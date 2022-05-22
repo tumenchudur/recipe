@@ -1,7 +1,7 @@
 require("@babel/polyfill");
 import Search from "./model/search";
 import * as searchView from "./view/searchView";
-import { elements } from "./view/base";
+import { elements, renderLoader, clearLoader } from "./view/base";
 /**
  * Web App төлөв
  * -Хайлтын query, үр дүн
@@ -22,9 +22,12 @@ const controlSearch = async() => {
         // 3) UI section
         searchView.clearSearchQuery();
         searchView.clearSearchResult();
+        renderLoader(elements.searchResultDiv);
+
         // 4) DoSearch
         await state.search.doSearch();
         // 5) Display result
+        clearLoader();
         state.search.result === undefined ?
             alert("Couldn't find anything") :
             searchView.renderRecipes(state.search.result);
