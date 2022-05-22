@@ -34,7 +34,16 @@ const controlSearch = async() => {
     }
 };
 
-document.querySelector(".search").addEventListener("submit", (e) => {
+elements.searchForm.addEventListener("submit", (e) => {
     e.preventDefault();
     controlSearch();
+});
+elements.pageButtons.addEventListener("click", (e) => {
+    const btn = e.target.closest(".btn-inline");
+
+    if (btn) {
+        searchView.clearSearchResult();
+        const goToPage = parseInt(btn.dataset.goto, 10);
+        searchView.renderRecipes(state.search.result, goToPage);
+    }
 });

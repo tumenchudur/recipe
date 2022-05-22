@@ -16,14 +16,52 @@ const renderRecipe = (recipe) => {
 
     elements.searchResultList.insertAdjacentHTML("beforeend", markup);
 };
+const createButton = (
+    page,
+    type,
+    direction
+) => ` <button class="btn-inline results__btn--${type}" data-goto=${page}>
+<svg class="search__icon">
+    <use href="img/icons.svg#icon-triangle-${direction}"></use>
+</svg>
+<span>Хуудас ${page}</span>
+</button>`;
+const renderButtons = (currentPage, totalPages) => {
+    let buttonHtml;
+
+    currentPage == 1 && totalPages > 1 // page 1 deer bn page 2 iig garga
+        ?
+        (buttonHtml = createButton(2, "next", "right")) :
+        currentPage < totalPages // prev page , next page
+        ?
+        (buttonHtml =
+            createButton(currentPage - 1, "prev", "left") +
+            createButton(currentPage + 1, "next", "right")) :
+        currentPage === totalPages ?
+        (buttonHtml = createButton(currentPage - 1, "prev", "left")) :
+        console.log("i love poop");
+
+    elements.pageButtons.insertAdjacentHTML("afterbegin", buttonHtml);
+
+    // its last page,  render only prev button
+};
 
 export const getInput = () => elements.searchInput.value;
-export const renderRecipes = (recipes) => {
-    recipes.forEach(renderRecipe);
-};
 export const clearSearchQuery = () => {
     elements.searchInput.value = "";
 };
 export const clearSearchResult = () => {
     elements.searchResultList.innerHTML = "";
+    elements.pageButtons.innerHTML = "";
+};
+export const renderRecipes = (recipes, currentPage = 1, resPerPage = 10) => {
+    //Хайлтын үр дүнг хуудаслах
+    const start = (currentPage - 1) * resPerPage;
+    const end = currentPage * resPerPage;
+
+    recipes.slice(start, end).forEach(renderRecipe);
+
+    // Хуудасны товчийг тохируулах
+    const totalPages = Math.ceil(recipes.length / resPerPage);
+    renderButtons(currentPage, totalPages);
 };
