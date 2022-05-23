@@ -11,11 +11,10 @@ export default class Recipe {
         this.publisher = result.data.recipe.publisher;
         this.ingredients = result.data.recipe.ingredients;
         this.source_url = result.data.recipe.source_url;
-        this.img_url = result.data.recipe.img_url;
+        this.img_url = result.data.recipe.image_url;
         this.publisher_url = result.data.recipe.publisher_url;
         this.social_rank = result.data.recipe.social_rank;
         this.title = result.data.recipe.title;
-        console.log(this.ingredients);
     }
     calcTime() {
         this.time = this.ingredients.length * 5;

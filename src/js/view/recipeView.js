@@ -1,13 +1,29 @@
 import { elements } from "./base";
-
+const jishee = (e) => {
+    return `<p>I LOVE POOP ${e} times!!</p>`;
+};
+const renderIngredient = (e) => {
+    return `   <li class="recipe__item">
+            <svg class="recipe__icon">
+                <use href="img/icons.svg#icon-check"></use>
+                </svg>
+                <div class="recipe__count">1/2</div>
+                <div class="recipe__ingredient">
+                <span class="recipe__unit">cup</span> ${e}
+                </div>
+        </li>`;
+};
 export const clearRecipe = () => {
     //  clear recipe
     elements.recipeDiv.innerHTML = "";
 };
 export const renderRecipe = (recipe) => {
+    console.log(recipe.img_url);
     const Html = `
             <figure class="recipe__fig">
-                 <img src="${recipe.img_url}" alt="${recipe.title}" class="recipe__img" />
+                 <img src="${recipe.img_url}" alt="${
+    recipe.title
+  }" class="recipe__img" />
                         <h1 class="recipe__title">
                             <span>${recipe.title}</span>
                         </h1>
@@ -17,14 +33,18 @@ export const renderRecipe = (recipe) => {
                             <svg class="recipe__info-icon">
                     <use href="img/icons.svg#icon-stopwatch"></use>
                     </svg>
-                            <span class="recipe__info-data recipe__info-data--minutes">${recipe.time}</span>
+                            <span class="recipe__info-data recipe__info-data--minutes">${
+                              recipe.time
+                            }</span>
                             <span class="recipe__info-text"> минут </span>
                         </div>
                         <div class="recipe__info">
                             <svg class="recipe__info-icon">
                     <use href="img/icons.svg#icon-man"></use>
                     </svg>
-                            <span class="recipe__info-data recipe__info-data--people">${recipe.portion}</span>
+                            <span class="recipe__info-data recipe__info-data--people">${
+                              recipe.portion
+                            }</span>
                             <span class="recipe__info-text"> хүний орц</span>
 
                             <div class="recipe__info-buttons">
@@ -49,22 +69,16 @@ export const renderRecipe = (recipe) => {
 
                     <div class="recipe__ingredients">
                         <ul class="recipe__ingredient-list">
-                            <li class="recipe__item">
-                                <svg class="recipe__icon">
-                        <use href="img/icons.svg#icon-check"></use>
-                    </svg>
-                                <div class="recipe__count">1000</div>
-                                <div class="recipe__ingredient">
-                                    <span class="recipe__unit">g</span> pasta
-                                </div>
-                            </li>
+                      ${recipe.ingredients
+                        .map((el) => renderIngredient(el))
+                        .join(" ")}
                         </ul>
 
-                        <button class="btn-small recipe__btn">
-                    <svg class="search__icon">
-                    <use href="img/icons.svg#icon-shopping-cart"></use>
-                    </svg>
-                    <span>САГСАНД ХИЙХ</span>
+                    <button class="btn-small recipe__btn">
+                        <svg class="search__icon">
+                            <use href="img/icons.svg#icon-shopping-cart"></use>
+                        </svg>
+                        <span>САГСАНД ХИЙХ</span>
                     </button>
                     </div>
 
@@ -72,9 +86,13 @@ export const renderRecipe = (recipe) => {
                         <h2 class="heading-2">Хэрхэн бэлтгэх вэ</h2>
                         <p class="recipe__directions-text">
                             Жорыг бэлтгэж оруулсан
-                            <span class="recipe__by">${recipe.publisher}</span>. Манай вэб сайтаас жорын зааврыг авна уу
+                            <span class="recipe__by">${
+                              recipe.publisher
+                            }</span>. Манай вэб сайтаас жорын зааврыг авна уу
                         </p>
-                        <a class="btn-small recipe__btn" href="${recipe.source_url}" target="_blank">
+                        <a class="btn-small recipe__btn" href="${
+                          recipe.source_url
+                        }" target="_blank">
                             <span>ЗААВАР ҮЗЭХ</span>
                             <svg class="search__icon">
                     <use href="img/icons.svg#icon-triangle-right"></use>

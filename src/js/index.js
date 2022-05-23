@@ -56,7 +56,7 @@ elements.pageButtons.addEventListener("click", (e) => {
 const controllerRecipe = async() => {
     // 1) get id from URL
     const id = window.location.hash.replace("#", "");
-    console.log(id);
+
     // 2) Create Recipe Model
     state.recipe = new Recipe(id);
     // 3) UI
@@ -69,6 +69,6 @@ const controllerRecipe = async() => {
     state.recipe.calcPortion();
     // 6) Display recipe
 
-    await renderRecipe(state.recipe);
+    renderRecipe(state.recipe);
 };
 window.addEventListener("hashchange", controllerRecipe);
