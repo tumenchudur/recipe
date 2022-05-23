@@ -3,6 +3,7 @@ import Search from "./model/search";
 import * as searchView from "./view/searchView";
 import Recipe from "./model/recipe";
 import { elements, renderLoader, clearLoader } from "./view/base";
+import { renderRecipe, clearRecipe } from "./view/recipeView";
 
 /**
  * Web App төлөв
@@ -49,6 +50,25 @@ elements.pageButtons.addEventListener("click", (e) => {
         searchView.renderRecipes(state.search.result, goToPage);
     }
 });
+/**
+ *Recipe controller
+ */
+const controllerRecipe = async() => {
+    // 1) get id from URL
+    const id = window.location.hash.replace("#", "");
+    console.log(id);
+    // 2) Create Recipe Model
+    state.recipe = new Recipe(id);
+    // 3) UI
+    clearRecipe();
 
-const r = new Recipe(47746);
-r.getRecipe();
+    // 4) get Recipe
+    await state.recipe.getRecipe();
+    // 5) Display info
+    state.recipe.calcTime();
+    state.recipe.calcPortion();
+    // 6) Display recipe
+
+    await renderRecipe(state.recipe);
+};
+window.addEventListener("hashchange", controllerRecipe);

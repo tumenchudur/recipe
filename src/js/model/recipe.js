@@ -17,4 +17,10 @@ export default class Recipe {
         this.title = result.data.recipe.title;
         console.log(this.ingredients);
     }
+    calcTime() {
+        this.time = this.ingredients.length * 5;
+    }
+    calcPortion() {
+        this.portion = 4;
+    }
 }
