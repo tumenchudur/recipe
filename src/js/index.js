@@ -3,7 +3,11 @@ import Search from "./model/search";
 import * as searchView from "./view/searchView";
 import Recipe from "./model/recipe";
 import { elements, renderLoader, clearLoader } from "./view/base";
-import { renderRecipe, clearRecipe } from "./view/recipeView";
+import {
+    renderRecipe,
+    clearRecipe,
+    highlightSelectedRecipe,
+} from "./view/recipeView";
 
 /**
  * Web App төлөв
@@ -61,10 +65,12 @@ const controllerRecipe = async() => {
     state.recipe = new Recipe(id);
     // 3) UI
     clearRecipe();
-
+    renderLoader(elements.recipeDiv);
+    await highlightSelectedRecipe(id);
     // 4) get Recipe
     await state.recipe.getRecipe();
     // 5) Display info
+    clearLoader();
     state.recipe.calcTime();
     state.recipe.calcPortion();
     // 6) Display recipe
@@ -72,3 +78,4 @@ const controllerRecipe = async() => {
     renderRecipe(state.recipe);
 };
 window.addEventListener("hashchange", controllerRecipe);
+window.addEventListener("load", controllerRecipe);
