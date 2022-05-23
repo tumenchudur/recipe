@@ -7,18 +7,26 @@ const renderIngredient = (e) => {
             <svg class="recipe__icon">
                 <use href="img/icons.svg#icon-check"></use>
                 </svg>
-                <div class="recipe__count">1/2</div>
+                <div class="recipe__count"></div>
                 <div class="recipe__ingredient">
-                <span class="recipe__unit">cup</span> ${e}
+                <span class="recipe__unit"></span> ${e}
                 </div>
         </li>`;
+};
+
+export const highlightSelectedRecipe = (id) => {
+    const array = Array.from(document.querySelectorAll(".results__link"));
+    array.forEach((element) => {
+        element.classList.remove("results__link--active");
+    });
+    const domObj = document.querySelector(`a[href*="#${id}"]`);
+    domObj ? domObj.classList.add("results__link--active") : "";
 };
 export const clearRecipe = () => {
     //  clear recipe
     elements.recipeDiv.innerHTML = "";
 };
 export const renderRecipe = (recipe) => {
-    console.log(recipe.img_url);
     const Html = `
             <figure class="recipe__fig">
                  <img src="${recipe.img_url}" alt="${
