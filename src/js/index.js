@@ -11,6 +11,7 @@ import {
     clearRecipe,
     highlightSelectedRecipe,
 } from "./view/recipeView";
+import Likes from "./model/like";
 
 /**
  * Web App төлөв
@@ -93,7 +94,28 @@ const controlList = () => {
         const item = state.list.addItem(e);
         listView.renderItem(item);
     });
-    // pass my recipe
+};
+
+const controlLike = () => {
+    // 1) create like model
+    if (!state.likes) state.likes = new Likes();
+    // 2) Get id from recipe on tha page
+    const currentId = state.recipe.id;
+    // 3) Check recipe if it is liked
+    if (state.likes.isLiked(currentId)) {
+        // 4) if it is liked, unlike recipe
+        state.likes.deleteLike(currentId);
+        console.log(state.likes);
+    } else {
+        // 5) if it is unliked, like recipe
+        console.log(state.likes);
+        state.likes.addLike(
+            currentId,
+            state.recipe.title,
+            state.recipe.publisher,
+            state.recipe.img_url
+        );
+    }
 };
 
 ["hashchange", "load"].forEach((e) =>
@@ -102,6 +124,8 @@ const controlList = () => {
 elements.recipeDiv.addEventListener("click", (e) => {
     if (e.target.matches(".recipe__btn, .recipe__btn *")) {
         controlList();
+    } else if (e.target.matches(".recipe__love, .recipe__love *")) {
+        controlLike();
     }
 });
 elements.listDiv.addEventListener("click", (e) => {
