@@ -79,5 +79,6 @@ const controllerRecipe = async() => {
         renderRecipe(state.recipe);
     }
 };
-window.addEventListener("hashchange", controllerRecipe);
-window.addEventListener("load", controllerRecipe);
+[`hashchange`, `load`].forEach((e) =>
+    window.addEventListener(e, controllerRecipe)
+);
