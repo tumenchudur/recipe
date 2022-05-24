@@ -2,6 +2,8 @@ require("@babel/polyfill");
 import Search from "./model/search";
 import * as searchView from "./view/searchView";
 import Recipe from "./model/recipe";
+import List from "./model/list";
+import * as listView from "./view/listView";
 import { elements, renderLoader, clearLoader } from "./view/base";
 import {
     renderRecipe,
@@ -79,6 +81,26 @@ const controllerRecipe = async() => {
         renderRecipe(state.recipe);
     }
 };
+//** recipe details in my basket */
+const controlList = () => {
+    // Create My recipe MODEl
+    state.list = new List();
+    listView.clearItems();
+
+    state.recipe.ingredients.forEach((e) => {
+        state.list.addItem(e);
+        listView.renderItem(e);
+        console.log(e);
+    });
+    // pass my recipe
+};
+
+elements.recipeDiv.addEventListener("click", (e) => {
+    if (e.target.matches(".recipe__btn, .recipe__btn *")) {
+        controlList();
+    }
+});
+
 [`hashchange`, `load`].forEach((e) =>
     window.addEventListener(e, controllerRecipe)
 );
