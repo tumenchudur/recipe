@@ -23,7 +23,7 @@ import * as likesView from "./view/likesView";
  */
 
 const state = {};
-likesView.toggleLikeMenu(0);
+
 const controlSearch = async() => {
     // 1) Get input from user
     const query = searchView.getInput();
@@ -130,6 +130,13 @@ const controlLike = () => {
 ["hashchange", "load"].forEach((e) =>
     window.addEventListener(e, controllerRecipe)
 );
+window.addEventListener("load", (e) => {
+    if (!state.likes) state.likes = new Likes();
+
+    likesView.toggleLikeMenu(state.likes.getNumberOfLikes());
+    state.likes.likes.forEach((like) => likesView.renderLike(like));
+});
+
 elements.recipeDiv.addEventListener("click", (e) => {
     if (e.target.matches(".recipe__btn, .recipe__btn *")) {
         controlList();
