@@ -17,7 +17,8 @@ export default class Likes {
     isLiked(id) {
         return this.likes.findIndex((el) => el.id === id) !== -1;
     }
-    getNumberOfliks() {
+    getNumberOfLikes() {
+        console.log(this.likes.length);
         return this.likes.length;
     }
 }

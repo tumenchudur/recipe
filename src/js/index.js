@@ -12,6 +12,7 @@ import {
     highlightSelectedRecipe,
 } from "./view/recipeView";
 import Likes from "./model/like";
+import * as likesView from "./view/likesView";
 
 /**
  * Web App төлөв
@@ -22,7 +23,7 @@ import Likes from "./model/like";
  */
 
 const state = {};
-
+likesView.toggleLikeMenu(0);
 const controlSearch = async() => {
     // 1) Get input from user
     const query = searchView.getInput();
@@ -64,6 +65,9 @@ elements.pageButtons.addEventListener("click", (e) => {
 const controllerRecipe = async() => {
     // 1) get id from URL
     const id = window.location.hash.replace("#", "");
+    if (!state.likes) {
+        state.likes = new Likes();
+    }
 
     if (id) {
         // 2) Create Recipe Model
@@ -80,7 +84,7 @@ const controllerRecipe = async() => {
         state.recipe.calcPortion();
         // 6) Display recipe
 
-        renderRecipe(state.recipe);
+        renderRecipe(state.recipe, state.likes.isLiked(id));
     }
 };
 //** recipe details in my basket */
@@ -103,19 +107,24 @@ const controlLike = () => {
     const currentId = state.recipe.id;
     // 3) Check recipe if it is liked
     if (state.likes.isLiked(currentId)) {
+        console.log(currentId);
+        likesView.deleteLike(currentId);
         // 4) if it is liked, unlike recipe
         state.likes.deleteLike(currentId);
-        console.log(state.likes);
+        likesView.toggleLikeBtn(false);
     } else {
         // 5) if it is unliked, like recipe
-        console.log(state.likes);
-        state.likes.addLike(
+
+        const newLike = state.likes.addLike(
             currentId,
             state.recipe.title,
             state.recipe.publisher,
             state.recipe.img_url
         );
+        likesView.toggleLikeBtn(true);
+        likesView.renderLike(newLike);
     }
+    likesView.toggleLikeMenu(state.likes.getNumberOfLikes());
 };
 
 ["hashchange", "load"].forEach((e) =>
